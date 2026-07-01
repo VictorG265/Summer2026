@@ -1,0 +1,48 @@
+services:
+
+  # База данных
+  postgres:
+    image: postgres:16-alpine
+    container_name: souvenir-postgres
+    environment:
+      POSTGRES_DB: souvenir_shop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - souvenir-network
+
+  # Spring бэк
+  souvenir-api:
+    build:
+      context: ./SouvenirShop
+      dockerfile: Dockerfile
+    container_name: souvenir-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/souvenir_shop
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_SECRET: your-very-long-secret-key-which-should-be-at-least-256-bits-long
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - souvenir-network
+
+volumes:
+  postgres_data:
+
+networks:
+  souvenir-network:
+    driver: bridge
