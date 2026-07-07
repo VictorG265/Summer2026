@@ -1,0 +1,14 @@
+:root{
+    /*Цвета для светлой темы*/
+    --primary: #CC00CC;
+    --primary-light: #FF44FF;
+    --background: #FFFFFF;
+    --surface: #F5F5F5;
+    --text-primary: #212121;
+    --text-secondary: #757575;
+
+    /*Общие переменные*/
+    --border-radius: 8px;
+    --shadow: 0 2px 8 px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}

@@ -1,0 +1,26 @@
+# ===== JAVA / SPRING =====
+SouvenirShop/target/
+*.class
+*.jar
+*.war
+SouvenirShop/.mvn/wrapper/maven-wrapper.jar
+
+# ===== REACT =====
+souvenir-ui/node_modules/
+souvenir-ui/build/
+souvenir-ui/dist/
+souvenir-ui/.env.local
+
+# ===== IntelliJ IDEA =====
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+logs/
