@@ -30,18 +30,12 @@ const ProfilePage = () => {
         phone: '',
     });
 
-    // Получаем данные текущего пользователя через логин из токена
+
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                // Декодируем токен чтобы получить id
-                const token = localStorage.getItem('token');
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const response = await userApi.getById(payload.sub);
-                // payload.sub содержит логин, но нам нужен id
-                // поэтому получаем всех и фильтруем (упрощение)
-                const allUsers = await userApi.getAll();
-                const currentUser = allUsers.data.find(u => u.login === payload.sub);
+                const response = await userApi.getMe();
+                const currentUser = response.data;
                 setUser(currentUser);
                 setFormData({
                     login: currentUser.login,

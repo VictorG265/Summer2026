@@ -59,7 +59,7 @@ const AdminOrdersPage = () => {
         setLoading(true);
         try {
             const response = await orderApi.getAll();
-            setOrders(response.data);
+            setOrders(Array.isArray(response.data) ? response.data : []);
         } catch (err) {
             setError('Ошибка загрузки заказов');
         } finally {

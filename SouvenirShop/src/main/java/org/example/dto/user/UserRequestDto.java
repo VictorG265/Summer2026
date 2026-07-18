@@ -14,7 +14,6 @@ public class UserRequestDto {
     @Size(min = 3, max = 50, message = "Логин должен быть от 3 до 50 символов")
     private String login;
 
-    @NotBlank(message = "Пароль не может быть пустым")
     @Size(min = 6, message = "Пароль должен быть не менее 6 символов")
     private String password;
 

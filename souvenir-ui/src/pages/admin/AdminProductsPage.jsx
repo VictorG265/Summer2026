@@ -43,7 +43,7 @@ const AdminProductsPage = () => {
         setLoading(true);
         try {
             const response = await productApi.getAll();
-            setProducts(response.data);
+            setProducts(Array.isArray(response.data) ? response.data : []);
         } catch (err) {
             setError('Ошибка загрузки товаров');
         } finally {

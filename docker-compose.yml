@@ -40,6 +40,19 @@ services:
     networks:
       - souvenir-network
 
+  # React фронт
+  souvenir-ui:
+    build:
+      context: ./souvenir-ui
+      dockerfile: Dockerfile
+    container_name: souvenir-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - souvenir-api
+    networks:
+      - souvenir-network
+
 volumes:
   postgres_data:
 

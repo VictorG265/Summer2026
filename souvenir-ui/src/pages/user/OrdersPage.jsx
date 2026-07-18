@@ -38,7 +38,7 @@ const OrdersPage = () => {
         const fetchOrders = async () => {
             try {
                 const response = await orderApi.getMyOrders();
-                setOrders(response.data);
+                setOrders(Array.isArray(response.data) ? response.data : []);
             } catch (err) {
                 setError('Ошибка загрузки заказов');
             } finally {

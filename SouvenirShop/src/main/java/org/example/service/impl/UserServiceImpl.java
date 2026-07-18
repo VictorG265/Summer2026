@@ -48,14 +48,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Пользователь с id " + id + " не найден"));
 
-        // Проверяем уникальность логина если он изменился
         if (!user.getLogin().equals(dto.getLogin()) &&
                 userRepository.existsByLogin(dto.getLogin())) {
             throw new AlreadyExistsException(
                     "Пользователь с логином " + dto.getLogin() + " уже существует");
         }
 
-        // Проверяем уникальность email если он изменился
         if (!user.getEmail().equals(dto.getEmail()) &&
                 userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
@@ -63,7 +61,12 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setLogin(dto.getLogin());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        // Обновляем пароль только если он передан
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
         user.setFio(dto.getFio());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());

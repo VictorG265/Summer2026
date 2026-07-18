@@ -46,17 +46,24 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
 
-                        // Только ADMIN
+                        // Специфичные маршруты — ОБЯЗАТЕЛЬНО раньше общих
+                        .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
+                        .requestMatchers("/api/orders/my").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/orders/**").authenticated()
+
+                        // Только ADMIN — товары
                         .requestMatchers(HttpMethod.POST, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+
+                        // Только ADMIN — пользователи
                         .requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/orders/**").hasRole("ADMIN")
 
-                        // Только авторизованные пользователи
-                        .requestMatchers("/api/orders/my/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/orders/**").authenticated()
+                        // Только ADMIN — заказы
+                        .requestMatchers(HttpMethod.GET, "/api/orders/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/orders/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/orders/**").hasRole("ADMIN")
 
                         // Всё остальное — только авторизованным
                         .anyRequest().authenticated()

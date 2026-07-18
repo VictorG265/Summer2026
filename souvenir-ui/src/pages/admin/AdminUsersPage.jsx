@@ -41,7 +41,7 @@ const AdminUsersPage = () => {
         setLoading(true);
         try {
             const response = await userApi.getAll();
-            setUsers(response.data);
+            setUsers(Array.isArray(response.data) ? response.data : []);
         } catch (err) {
             setError('Ошибка загрузки пользователей');
         } finally {
